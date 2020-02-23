@@ -19,7 +19,7 @@ namespace XamarinFormsClean.Feature.Authentication.Domain.UseCases
         protected override IObservable<ResponseValue> ExecuteUseCase(RequestValues requestValues) =>
             _sessionRepository.CreateSession(requestValues)
                 .Select(_ => new ResponseValue());
-
+        
         public sealed class RequestValues : ValidateTokenPostCommand, IRequestValues
         {
             public RequestValues(string username, string password) 

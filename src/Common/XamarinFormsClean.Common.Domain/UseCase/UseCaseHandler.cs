@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
@@ -48,9 +49,23 @@ namespace XamarinFormsClean.Common.Domain.UseCase
             where TResponse : class, IUseCase<TQuery, TResponse>.IResponseValue =>
             ExecuteObservableOn(useCase.Execute(values), scheduler);
 
+
+        
+
         private static IObservable<T> ExecuteObservableOn<T>(IObservable<T> observable, IScheduler scheduler) =>
+#if DEBUG
+            Observable.Return(Stopwatch.StartNew())
+                .SelectMany(sw => 
+                    observable.Select(obsResult => (sw, obsResult)))
+                .Do(tuple =>
+                    Debug.WriteLine($"Use Case Executed in: {tuple.sw.ElapsedMilliseconds}ms"))
+                .Select(tuple => tuple.obsResult)
+                .SubscribeOn(scheduler)
+                .ObserveOn(RxApp.MainThreadScheduler);
+#else
             observable
                 .SubscribeOn(scheduler)
                 .ObserveOn(RxApp.MainThreadScheduler);
+#endif
     }
 }

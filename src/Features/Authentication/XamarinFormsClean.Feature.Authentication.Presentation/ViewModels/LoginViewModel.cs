@@ -68,7 +68,7 @@ namespace XamarinFormsClean.Feature.Authentication.Presentation.ViewModels
         public ICommand LoginCommand =>
             _loginCommand ??= ReactiveCommand.CreateFromObservable(
                 () => this.WrapVisualState(
-                    _createSessionUseCase.Execute(
+                    UseCaseHandler.Execute(_createSessionUseCase,
                         new CreateSessionUseCase.RequestValues(
                             Username, Password))),
                 this.WhenAnyValue(
