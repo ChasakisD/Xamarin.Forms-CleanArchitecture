@@ -3,16 +3,56 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:viewModels="clr-namespace:XamarinFormsClean.Feature.Authentication.Presentation.ViewModels"
+    xmlns:controls="http://xamarin.com/schemas/2014/forms/background"
     x:Class="XamarinFormsClean.Feature.Authentication.Presentation.Views.LoginView"
     x:DataType="viewModels:LoginViewModel"
     Visual="Material">
-    <StackLayout VerticalOptions="FillAndExpand" Spacing="16">
-        <StackLayout VerticalOptions="Center" Margin="32,0" Spacing="16">
+    <StackLayout VerticalOptions="FillAndExpand" Spacing="16" Margin="32">
+        <StackLayout VerticalOptions="Center" Spacing="16">
             <Entry Text="{Binding Username}" Placeholder="Username" />
             <Entry Text="{Binding Password}" Placeholder="Password" />
             <Button Command="{Binding LoginCommand}" Text="Login" />
         </StackLayout>
         
         <ActivityIndicator Color="Coral" IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
+        
+        <controls:MaterialShapeView Margin="4">
+            <controls:MaterialShapeView.Shape>
+                <controls:RoundRect CornerRadius="12" />
+            </controls:MaterialShapeView.Shape>
+            <controls:MaterialShapeView.Background>
+                <controls:Background Color="White" Elevation="4" />
+            </controls:MaterialShapeView.Background>
+            <StackLayout Margin="16,8" Spacing="8">
+                <Label FontSize="14" FontAttributes="Bold" Text="Session Details" HorizontalTextAlignment="Center" />
+                
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Session ID: "></Span>
+                            <Span Text="{Binding Session.SessionId.Value}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Request Token: "></Span>
+                            <Span Text="{Binding Session.RequestToken.Value}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Expires At: "></Span>
+                            <Span Text="{Binding Session.ExpiresAt}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </StackLayout>
+        </controls:MaterialShapeView>
     </StackLayout>
 </ContentPage>

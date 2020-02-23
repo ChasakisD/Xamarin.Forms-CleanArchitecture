@@ -26,12 +26,12 @@ namespace XamarinFormsClean.Common.Data.Source.Local.DataSource
             _dao.GetItem(ItemKey).ToResult();
 
         public IObservable<Result<Unit>> AddItem(T item) =>
-            _dao.AddItem(item)
+            _dao.AddItem(ItemKey, item)
                 .SelectMany(_ => Intercept())
                 .ToResult();
 
         public IObservable<Result<Unit>> UpdateItem(T item) =>
-            _dao.UpdateItem(item)
+            _dao.UpdateItem(ItemKey, item)
                 .SelectMany(_ => Intercept())
                 .ToResult();
 

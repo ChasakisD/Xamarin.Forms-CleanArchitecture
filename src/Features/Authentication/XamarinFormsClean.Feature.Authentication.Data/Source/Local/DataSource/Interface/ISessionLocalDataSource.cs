@@ -3,5 +3,5 @@ using XamarinFormsClean.Feature.Authentication.Data.Model.Local;
 
 namespace XamarinFormsClean.Feature.Authentication.Data.Source.Local.DataSource.Interface
 {
-    public interface ISessionLocalDataSource : IRealTimeSingleLocalDataSource<SessionData> { }
+    public interface ISessionLocalDataSource : ISingleLocalDataSource<SessionData>, IRealTimeLocalDataSource<SessionData> { }
 }

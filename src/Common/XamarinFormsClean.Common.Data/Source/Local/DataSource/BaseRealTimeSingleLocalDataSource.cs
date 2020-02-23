@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -12,23 +14,23 @@ namespace XamarinFormsClean.Common.Data.Source.Local.DataSource
 {
     public abstract class BaseRealTimeSingleLocalDataSource<T> : 
         BaseSingleLocalDataSource<T>, 
-        IRealTimeSingleLocalDataSource<T> 
+        IRealTimeLocalDataSource<T> 
         where T : BaseData
     {
-        public IObservable<T> ItemChanged { get; }
-        
-        private readonly Subject<T> _itemsChangedSubject;
+        public IObservable<IEnumerable<T>> ItemsChanged { get; }
+
+        private readonly Subject<IEnumerable<T>> _itemsChangedSubject;
 
         protected BaseRealTimeSingleLocalDataSource(ISingleDao<T> dao) : base(dao)
         {
-            _itemsChangedSubject = new Subject<T>();
+            _itemsChangedSubject = new Subject<IEnumerable<T>>();
             
-            ItemChanged = Observable.Create<T>(observer =>
+            ItemsChanged = Observable.Create<IEnumerable<T>>(observer =>
             {
                 GetItem()
                     .SingleAsync()
                     .Subscribe(itemsResult => 
-                        PublishItemsToObserver(itemsResult, observer, false));
+                        PublishItemsToObserver(itemsResult, observer));
                 
                 var subscription = _itemsChangedSubject
                     .AsObservable()
@@ -42,23 +44,22 @@ namespace XamarinFormsClean.Common.Data.Source.Local.DataSource
             Observable.If(() => _itemsChangedSubject.HasObservers,
                 GetItem()
                     .Do(itemResult => 
-                        PublishItemsToObserver(itemResult, _itemsChangedSubject, true))
+                        PublishItemsToObserver(itemResult, _itemsChangedSubject))
                     .Select(_ => Unit.Default),
                 Observable.Return(Unit.Default));
 
         private static void PublishItemsToObserver(
-            Result<T> itemsResult, IObserver<T> observer, bool suppressErrors)
+            Result<T> itemsResult, IObserver<IEnumerable<T>> observer)
         {
             switch (itemsResult)
             {
-                case Result<T>.Error {Exception: var exception}:
-                    if (!suppressErrors)
-                    {
-                        observer.OnError(exception);
-                    }
+                case Result<T>.Error _:
+                    observer.OnNext(Enumerable.Empty<T>());
                     break;
                 case Result<T>.Success {Data: var data}:
-                    observer.OnNext(data);
+                    observer.OnNext(data == null
+                        ? Enumerable.Empty<T>()
+                        : new[] {data});
                     break;
             }
         }

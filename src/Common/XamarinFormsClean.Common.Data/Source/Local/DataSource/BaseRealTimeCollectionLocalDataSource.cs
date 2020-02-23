@@ -14,7 +14,7 @@ namespace XamarinFormsClean.Common.Data.Source.Local.DataSource
 {
     public abstract class BaseRealTimeCollectionLocalDataSource<T> :
         BaseCollectionLocalDataSource<T>,
-        IRealTimeCollectionLocalDataSource<T>
+        IRealTimeLocalDataSource<T>
         where T : BaseData
     {
         public IObservable<IEnumerable<T>> ItemsChanged { get; }
@@ -30,7 +30,7 @@ namespace XamarinFormsClean.Common.Data.Source.Local.DataSource
                 GetAllItems()
                     .SingleAsync()
                     .Subscribe(itemsResult => 
-                        PublishItemsToObserver(itemsResult, observer, false));
+                        PublishItemsToObserver(itemsResult, observer));
                 
                 var subscription = _itemsChangedSubject
                     .AsObservable()
@@ -44,20 +44,17 @@ namespace XamarinFormsClean.Common.Data.Source.Local.DataSource
             Observable.If(() => _itemsChangedSubject.HasObservers,
                 GetAllItems()
                     .Do(itemsResult => 
-                        PublishItemsToObserver(itemsResult, _itemsChangedSubject, true))
+                        PublishItemsToObserver(itemsResult, _itemsChangedSubject))
                     .Select(_ => Unit.Default),
                 Observable.Return(Unit.Default));
 
         private static void PublishItemsToObserver(
-            Result<IEnumerable<T>> itemsResult, IObserver<IEnumerable<T>> observer, bool suppressErrors)
+            Result<IEnumerable<T>> itemsResult, IObserver<IEnumerable<T>> observer)
         {
             switch (itemsResult)
             {
-                case Result<IEnumerable<T>>.Error {Exception: var exception}:
-                    if (!suppressErrors)
-                    {
-                        observer.OnError(exception);
-                    }
+                case Result<IEnumerable<T>>.Error _:
+                    observer.OnNext(Enumerable.Empty<T>());
                     break;
                 case Result<IEnumerable<T>>.Success {Data: var data}:
                     observer.OnNext(data ?? Enumerable.Empty<T>());
