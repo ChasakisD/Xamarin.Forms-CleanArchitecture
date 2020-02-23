@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+      <TargetFramework>netstandard2.1</TargetFramework>
+      <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+      <LangVersion>latest</LangVersion>
+      <Nullable>enable</Nullable>
+      <WarningsAsErrors>CS8600;CS8602;CS8603</WarningsAsErrors>
+      <AssemblyName>XamarinFormsClean.Feature.Authentication.Domain</AssemblyName>
+      <RootNamespace>XamarinFormsClean.Feature.Authentication.Domain</RootNamespace> 
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Common\XamarinFormsClean.Common.Domain\XamarinFormsClean.Common.Domain.csproj" />
+      <ProjectReference Include="..\XamarinFormsClean.Feature.Authentication.Data\XamarinFormsClean.Feature.Authentication.Data.csproj" />
+    </ItemGroup>
+
+</Project>

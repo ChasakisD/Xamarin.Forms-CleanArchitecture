@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <WarningsAsErrors>CS8600;CS8602;CS8603</WarningsAsErrors>
+        <AssemblyName>XamarinFormsClean.Common.Api</AssemblyName>
+        <RootNamespace>XamarinFormsClean.Common.Api</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Refit" Version="5.0.23" />
+        <PackageReference Include="HttpTracer" Version="2.1.1" />
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Environments\XamarinFormsClean.Environment\XamarinFormsClean.Environment.csproj" />
+    </ItemGroup>
+
+</Project>

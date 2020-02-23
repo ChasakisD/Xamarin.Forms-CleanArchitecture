@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <WarningsAsErrors>CS8600;CS8602;CS8603</WarningsAsErrors>
+        <AssemblyName>XamarinFormsClean.Common.Data</AssemblyName>
+        <RootNamespace>XamarinFormsClean.Common.Data</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="akavache" Version="6.10.4" />
+        <PackageReference Include="System.Reactive.Linq" Version="4.3.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\XamarinFormsClean.Common.Api\XamarinFormsClean.Common.Api.csproj" />
+    </ItemGroup>
+
+</Project>

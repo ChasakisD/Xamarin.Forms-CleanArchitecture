@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <WarningsAsErrors>CS8600;CS8602;CS8603</WarningsAsErrors>
+    <AssemblyName>XamarinFormsClean.Common.Presentation</AssemblyName>
+    <RootNamespace>XamarinFormsClean.Common.Presentation</RootNamespace> 
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\XamarinFormsClean.Common.Domain\XamarinFormsClean.Common.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
